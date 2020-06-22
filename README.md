@@ -1,3 +1,64 @@
+Run Docker Toolbox :
+```
+docker network create lambda-local
+
+docker run --network=lambda-local --name dynamo -p 8000:8000 amazon/dynamodb-local
+
+docker-machine ip default
+
+```
+
+>aws dynamodb list-tables --endpoint-url http://192.1.1.1:8000
+
+```
+{ "TableNames": [] }
+```
+
+>aws dynamodb create-table   --table-name Orders   --endpoint-url http://192.168.99.100:8000  ^
+--attribute-definitions AttributeName=OrderId,AttributeType=S  ^
+ --key-schema AttributeName=OrderId,KeyType=HASH ^
+ --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
+
+>aws dynamodb describe-table --table-name Orders --endpoint-url http://localhost:8000
+
+ 
+
+>aws dynamodb  put-item ^
+--table-name Orders ^
+--item file://item2.json  ^
+--return-consumed-capacity TOTAL ^
+--endpoint-url http://192.168.99.100:8000  
+
+```
+{
+    "ScripId": {"S": "1"},
+    "OrderId": {"S": "1"},
+    "Type": {"S": "11"},
+    "Quantity": {"S": "20"}
+}
+```
+
+
+>aws dynamodb  get-item ^
+--table-name Orders ^
+--key file://key2.json  ^
+--return-consumed-capacity TOTAL ^
+--endpoint-url  http://192.168.99.100:8000 
+
+
+```
+
+{
+    "OrderId": {"S": "1"}
+}
+```
+
+>sam build
+>sam local invoke GetFunction --docker-network lambda-local
+
+
+
+
 # sam-app
 
 This project contains source code and supporting files for a serverless application that you can deploy with the AWS Serverless Application Model (AWS SAM) command line interface (CLI). It includes the following files and folders:
