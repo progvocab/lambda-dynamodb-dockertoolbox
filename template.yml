@@ -26,7 +26,7 @@ Resources:
       Handler: src/handlers/index.handler
       Runtime: nodejs10.x
       MemorySize: 128
-      Timeout: 100
+      Timeout: 300
       Policies: AmazonDynamoDBReadOnlyAccess
       Environment:
         Variables:

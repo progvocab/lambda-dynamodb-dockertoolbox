@@ -7,6 +7,16 @@ docker run --network=lambda-local --name dynamo -p 8000:8000 amazon/dynamodb-loc
 docker-machine ip default
 
 ```
+OR
+
+>docker ps -a
+```
+CONTAINER ID        IMAGE                   COMMAND                  CREATED             STATUS                           PORTS                    NAMES
+cfe5c65ed91c        amazon/dynamodb-local   "java -jar DynamoDBL…"   12 hours ago        Exited (255) About an hour ago   0.0.0.0:8000->8000/tcp   dynamo
+```
+>docker start cfe5c65ed91c
+
+
 
 >aws dynamodb list-tables --endpoint-url http://192.1.1.1:8000
 
@@ -56,7 +66,7 @@ docker-machine ip default
 >sam build
 >sam local invoke GetFunction --docker-network lambda-local
 
-
+>sam local start-api --docker-network lambda-local
 
 
 # sam-app
